@@ -14,16 +14,17 @@ html {
 }
 
 body {
-
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-main {
-
-}
 
 main input{
     width: 100%;
     font-size: 3.5rem;
+    margin-top: 10px;
     margin-bottom:10px;
     background-color: black;
     color: green;
@@ -36,25 +37,40 @@ main input{
 
 main section#keyBoard {
     /** Grid eller liknade */
+    display: grid;
+    gap: 0.05rem;
+    
 }
 
-@media (max-width: 767px) {
-    body {
+button {
+    font-size: 3rem;
+    border-radius: 8px;
+    padding: 3rem 0rem;
+}
 
-    }
+#add, #sub, #mul, #enter, #comma, #div, #clear {
+    color: blue;
+}
 
-    main {
+button:hover {
+    color: green;
+    font-weight: bold;
+}
 
-    }
+@media (max-width: 768px) {
 
     main input{
+    }
 
+    button {
     }
 }
 
-@media (max-width: 339px) {
-    main {
+@media (max-width: 375px) {
+    main input {
+    }
 
+    button {
     }
 
 }
