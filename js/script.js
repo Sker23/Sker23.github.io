@@ -84,12 +84,8 @@ function addComma() {
  * Beräknar ovh visar resultatet på displayen.
  */
 function calculate() {
-    let mulDivArray = lcd.value.split(/([+\-*\/])/);
-    let addSubArray = [];
-    /**search for * and / first */
-    /**calculate when found and save calculation new array otherwise just save to new array*/
-    /**repeat until all * and / are done */
-    /**then redo and do + and - */
+    let mulDivArray = lcd.value.split(/([+\-*\/])/);//splittar stringen vid varje operator
+    let addSubArray = [];//används senare för uträkning av + och -.
 
     for (let i = 0; i < mulDivArray.length; i++) {
         if (mulDivArray[i] === '*' || mulDivArray[i] === '/' ) {//chekcar om det är en div/mul 
@@ -99,7 +95,7 @@ function calculate() {
             if (mulDivArray[i] === '*') {
                 addSubArray.push(firstNumber * secondNumber);
             } else {
-                if (secondNumber === 0) {
+                if (secondNumber === 0) {//om divisionen är 0 avbryts funktionen.
                     lcd.value = 'CANT DIVIDE BY 0';
                     return;
                 } else {
