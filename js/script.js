@@ -5,6 +5,7 @@ let memory = 0; // Lagrat/gamlat värdet från display
 let arithmetic = null; // Vilken beräkning som skall göras +,-, x eller /
 
 let isComma = false; //Om komma finns
+let operatorExist = true;//håller koll så att det bara finns en operator efter varje tal
 
 function init() {
     lcd = document.getElementById('lcd');
@@ -20,17 +21,31 @@ function buttonClick(e) {
 
     // kollar om siffertangent är nedtryckt
     if (btn.substring(0, 1) === 'b') {
-     let digit = btn.substring(1, 2); // plockar ut siffran från id:et
+        let digit = btn.substring(1, 2); // plockar ut siffran från id:et
         addDigit(digit);
     } else { // Inte en siffertangent, övriga tangenter.
-        if (btn === 'comma') {
-            addComma();
-        } else if (btn === 'clear') {
-            memClear();
-        } else if (btn === 'enter') {
-            calculate();
-        } else {
-            setOperator(btn);
+        switch (btn) {
+            case 'add':
+                addOperator('+');
+                break;
+            case 'sub':
+                addOperator('-');
+                break;
+            case 'mul':
+                addOperator('*');
+                break;
+            case 'div':
+                addOperator('/');
+                break;
+            case 'comma':
+                addComma();
+                break;
+            case 'enter':
+                calculate();
+                break;
+            case 'clear':
+                memClear();
+                break;
         }
     }   
 }
@@ -40,8 +55,20 @@ function buttonClick(e) {
  */
 function addDigit(digit) {
     lcd.value += digit; //lägger till nästa nummber
+    operatorExist = false
 }
 
+/**
+ * Lägger till operator
+ */
+function addOperator(operator) {
+    if (operatorExist === false) {
+        lcd.value += operator;
+    }
+
+    operatorExist = true;
+    isComma = false;
+}
 /**
  * Lägger till decimaltecken
  */
@@ -53,62 +80,53 @@ function addComma() {
 }
 
 /**
- * Sparar operator.
- * +, -, *, /
- */
-function setOperator(operator){
-    if (arithmetic === null) {
-        memory = lcd.value;
-        clearLCD();
-        isComma = false;
-    }
-
-    if (operator === 'add') {
-        arithmetic = '+';
-    }
-
-    if (operator === 'sub') {
-        arithmetic = '-';
-    }
-
-    if (operator === 'mul') {
-        arithmetic = '*';
-    }
-
-    if (operator === 'div') {
-        arithmetic = '/';
-    }
-
-}
-
-/**
+ * 
  * Beräknar ovh visar resultatet på displayen.
  */
 function calculate() {
-    let x = Number(memory)
-    let y = Number(lcd.value)
+    let mulDivArray = lcd.value.split(/([+\-*\/])/);
+    let addSubArray = [];
+    /**search for * and / first */
+    /**calculate when found and save calculation new array otherwise just save to new array*/
+    /**repeat until all * and / are done */
+    /**then redo and do + and - */
 
-    if (arithmetic === '+') {
-        lcd.value = x + y;
-    }
+    for (let i = 0; i < mulDivArray.length; i++) {
+        if (mulDivArray[i] === '*' || mulDivArray[i] === '/' ) {//chekcar om det är en div/mul 
+            let firstNumber = parseFloat(addSubArray.pop());//poppar eftersom den ska räknas med och ersättas med nytt tal
+            let secondNumber = parseFloat(mulDivArray[i+1]);
 
-    if (arithmetic === '-') {
-        lcd.value = x - y;
-    }
-
-    if (arithmetic === '*') {
-        lcd.value = x * y;
-    }
-
-    if (arithmetic === '/') {
-        if (y === 0) {
-            lcd.value = 'ERROR CANT DIVIDE BY 0'
-        } else {
-            lcd.value = x / y;
+            if (mulDivArray[i] === '*') {
+                addSubArray.push(firstNumber * secondNumber);
+            } else {
+                if (secondNumber === 0) {
+                    lcd.value = 'CANT DIVIDE BY 0';
+                    return;
+                } else {
+                    addSubArray.push(firstNumber / secondNumber);
+                }// pushar in talen till den nya arrayen
+            }
+            i++//skippare andra talet eftersom det använts och ligger nu i addSubArrayen
+        } else {//annars pushar in till andra arrayen för senare användning
+            console.log('else');
+            addSubArray.push(mulDivArray[i]);
         }
-    }
+    }//tar hand om alla multiplikationer och divisioner
 
-    arithmetic = null;
+    let sum = parseFloat(addSubArray[0]);
+    for (let i = 0; i < addSubArray.length; i++) {
+        if (addSubArray[i] === '+' || addSubArray[i] === '-') {
+            if (addSubArray[i] === '+') {
+                sum = sum + parseFloat(addSubArray[i+1]);
+                i++
+            } else {
+                sum = sum - parseFloat(addSubArray[i+1]);
+                i++
+            }
+        }
+    }//tar hand om all aditioner och subtraktioner skapar slutvärdet
+
+    lcd.value = sum;
 }
 
 /** Rensar display */
