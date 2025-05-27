@@ -95,7 +95,7 @@ function calculate() {
             if (mulDivArray[i] === '*') {
                 addSubArray.push(firstNumber * secondNumber);
             } else {
-                if (secondNumber === 0) {//om divisionen är 0 avbryts funktionen.
+                if (secondNumber === 0) {//om divisionen är 0 avbryts hela funktionen.
                     lcd.value = 'CANT DIVIDE BY 0';
                     return;
                 } else {
@@ -104,13 +104,12 @@ function calculate() {
             }
             i++//skippare andra talet eftersom det använts och ligger nu i addSubArrayen
         } else {//annars pushar in till andra arrayen för senare användning
-            console.log('else');
             addSubArray.push(mulDivArray[i]);
         }
     }//tar hand om alla multiplikationer och divisioner
 
     let sum = parseFloat(addSubArray[0]);
-    for (let i = 0; i < addSubArray.length; i++) {
+    for (let i = 1; i < addSubArray.length; i++) {
         if (addSubArray[i] === '+' || addSubArray[i] === '-') {
             if (addSubArray[i] === '+') {
                 sum = sum + parseFloat(addSubArray[i+1]);

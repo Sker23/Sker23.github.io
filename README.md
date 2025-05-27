@@ -3,6 +3,8 @@
 Om ditt användarnamn är **bygren**  
 Skapa då ett repository som heter: **bygren**.github.io  
 Ladda upp hela ditt projekt.  
+Noel Therup pwa: noelt.github.io 
+Dock fungerar den inte och jag vet ej varför
 
 ## Skapa olika ikoner
 Oftas räcker det med en favicon.ico på 32x32 px och en ikon med storleken 512x512 px.  
@@ -15,7 +17,6 @@ Blir dock bättre med flera png-ikoner.
     font-family: 'digitalDigits';
     src: url('/font/SUBWT___.ttf') format('truetype');
 }
-```
 
 ### Verktyg som gör om en ikon till olika storlekar
 
