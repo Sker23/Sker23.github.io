@@ -37,15 +37,15 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', (e) => {
  e.waitUntil(caches.keys().then((keyList) => {
    return Promise.all(keyList.map((key) => {
-     if (key !== cacheKey) {
-       return caches.delete(key);
-     }
-   }));
+     if (key === cacheKey) { return; }
+     return caches.delete(key);
+   }))
  }));
 });
 
 /** cache-filer först, upddaterar cache från servern */
 self.addEventListener('fetch', function (event) {
+  if (!(event.request.url.indexOf('http') === 0)) return; 
   event.respondWith(
     caches.open(cacheKey).then(function (cache) {
       return cache.match(event.request).then(function (response) {

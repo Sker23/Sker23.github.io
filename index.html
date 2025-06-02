@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -12,8 +11,8 @@
 
 <body>
     <main>
-        <input type="text" id = 'lcd' disabled="disabled">
-        <section id = 'keyBoard'>
+        <input type="text" id='lcd' disabled="disabled">
+        <section id='keyBoard'>
             <button id='b7'>7</button>
             <button id='b8'>8</button>
             <button id='b9'>9</button>
@@ -28,23 +27,24 @@
             <button id='b2'>2</button>
             <button id='b3'>3</button>
             <button id='mul'>x</button>
-            
+
             <button id='comma'>,</button>
             <button id='b0'>0</button>
             <button id='enter'>=</button>
             <button id='div'>/</button>
 
-            <button id='clear' style = 'grid-column: span 4;'>CLEAR</button>
+            <button id='clear' style='grid-column: span 4;'>CLEAR</button>
         </section>
 
     </main>
 
 </body>
-    <script>
-        if('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('./sw.js?v=2.7');
-            });
-        }
-    </script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js?v=1.22');
+        });
+    }
+</script>
+
 </html>
